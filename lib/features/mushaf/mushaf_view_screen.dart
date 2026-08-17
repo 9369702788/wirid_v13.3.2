@@ -227,7 +227,9 @@ class _MushafPageViewState extends State<_MushafPageView> {
                             ...TajweedService.analyze(ayah.text).map(
                               (segment) => TextSpan(
                                 text: segment.text,
-                                style: TextStyle(color: TajweedService.colorFor(segment.rule)),
+                                style: segment.rule == TajweedRule.none
+                                    ? null
+                                    : TextStyle(color: TajweedService.colorFor(segment.rule)),
                                 recognizer: _makeRecognizer(() => _playAyah(ayah)),
                               ),
                             )

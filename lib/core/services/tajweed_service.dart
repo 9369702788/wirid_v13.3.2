@@ -47,7 +47,15 @@ class TajweedService {
 
   static bool _isArabicLetter(int codeUnit) => codeUnit >= 0x0621 && codeUnit <= 0x064A;
 
-  static Color colorFor(TajweedRule rule) {
+  /// Returns the highlight color for [rule], or null for
+  /// [TajweedRule.none] -- callers MUST treat null as "apply no color
+  /// override" (inherit the surrounding text style), never as a
+  /// literal color. A previous version returned a fully transparent
+  /// Color(0x00000000) here, which rendered as genuinely invisible
+  /// text for every non-highlighted letter -- i.e. almost the entire
+  /// Quran. Fixed by making "no rule" an explicit null instead of a
+  /// color value that happens to be invisible.
+  static Color? colorFor(TajweedRule rule) {
     switch (rule) {
       case TajweedRule.qalqalah:
         return AppColors.tajweedQalqalah;
@@ -62,7 +70,7 @@ class TajweedService {
       case TajweedRule.iqlab:
         return AppColors.tajweedIqlab;
       case TajweedRule.none:
-        return const Color(0x00000000);
+        return null;
     }
   }
 

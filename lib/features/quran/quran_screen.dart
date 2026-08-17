@@ -1098,7 +1098,12 @@ class _SurahReaderScreenState extends State<SurahReaderScreen> {
                           TextSpan(
                             children: [
                               for (final segment in TajweedService.analyze(ayah.text))
-                                TextSpan(text: segment.text, style: TextStyle(color: TajweedService.colorFor(segment.rule))),
+                                TextSpan(
+                                  text: segment.text,
+                                  style: segment.rule == TajweedRule.none
+                                      ? null
+                                      : TextStyle(color: TajweedService.colorFor(segment.rule)),
+                                ),
                               TextSpan(text: '  ﴿${ayah.number}﴾'),
                             ],
                           ),
